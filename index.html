@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In Development</title>
+<meta name="description" content="This site is currently in development">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c0e;
+    --bg-soft: #121316;
+    --orange: #ff6b1a;
+    --orange-deep: #c43e00;
+    --text: #f5f1ea;
+    --muted: #8a8580;
+    --line: #232019;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .glow {
+    position: absolute;
+    width: 70vmax;
+    height: 70vmax;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, var(--orange) 0%, var(--orange-deep) 32%, transparent 70%);
+    filter: blur(60px);
+    opacity: 0.28;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.24; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.36; transform: translate(-50%, -50%) scale(1.06); }
+  }
+
+  .noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  main {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 24px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
+
+  h1 {
+    display: inline-block;
+    font-size: clamp(2.4rem, 8vw, 5.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1;
+  }
+
+  h1 span {
+    color: var(--orange);
+    font-size: 0.32em;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    letter-spacing: 0;
+    display: block;
+    text-align: right;
+    margin-top: 0.35em;
+  }
+
+  .tagline {
+    margin-top: 18px;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .snark {
+    margin-top: 26px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--orange);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    min-height: 1em;
+  }
+
+  .snark.milestone {
+    color: var(--bg);
+    background: var(--orange);
+    display: inline-block;
+    max-width: 420px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .counter {
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .achv-toggle {
+    display: none;
+    margin-top: 22px;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .achv-toggle:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+
+  .achv-list {
+    margin-top: 14px;
+    max-width: 360px;
+    max-height: 160px;
+    overflow-y: auto;
+    text-align: left;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .achv-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .achv-item:last-child { border-bottom: none; }
+
+  .achv-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .achv-title span {
+    color: var(--orange);
+    margin-right: 8px;
+  }
+
+  .achv-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.25; }
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--orange);
+    margin-left: 2px;
+    animation: blink 1s steps(1) infinite;
+    vertical-align: middle;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    opacity: 0.5;
+    z-index: 2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow, .cursor { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="glow"></div>
+  <div class="noise"></div>
+
+  <main>
+    <div class="eyebrow">nothing to see here... yet</div>
+    <h1>There's nothing here. <span>And there might never be.</span></h1>
+    <p class="tagline">Don't bother refreshing this page every 5 minutes<span class="cursor"></span></p>
+    <p class="snark" id="snark"></p>
+    <p class="counter" id="counter"></p>
+    <button class="achv-toggle" id="achvToggle" type="button"></button>
+    <div class="achv-list" id="achvList" hidden></div>
+  </main>
+
+  <footer>© <span id="year"></span> all rights reserved</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    var phrases = [
+      "Why did you refresh?",
+      "Seriously, again?",
+      "Still nothing. Same as 5 seconds ago.",
+      "Okay but why though?",
+      "Nope. Try again never.",
+      "You could've used that click on literally anything else.",
+      "This isn't a slot machine.",
+      "Refreshing won't make content appear. Trust me, I tried.",
+      "Not today. Not tomorrow. Maybe not ever.",
+      "You again? Bold of you.",
+      "There is nothing new under this sun.",
+      "Achievement unlocked: wasted a click.",
+      "This page respawns exactly the same every time.",
+      "F5 isn't a personality trait.",
+      "Go touch some grass instead.",
+      "Still empty. Groundbreaking, I know.",
+      "This page has commitment issues. So does the content.",
+      "Reloading is just clicking in a trench coat.",
+      "You've refreshed more than this site has updated.",
+      "Congratulations, you found the same nothing again.",
+      "I admire the persistence. I question the strategy.",
+      "This isn't Schrödinger's page. It's definitely empty.",
+      "Try turning yourself off and on again instead.",
+      "Nothing loading. Nothing to load.",
+      "Your F5 key called. It wants a break.",
+      "The content is not, in fact, in another castle.",
+      "This page runs on vibes, not updates.",
+      "Ctrl+R won't fix this. Or your day, probably.",
+      "You blinked and it's still nothing.",
+      "This is the definition of insanity, and yet.",
+      "Breaking news: it's still not done.",
+      "You have now refreshed this more than most people blink.",
+      "Plot twist: it stays empty.",
+      "Still nothing here. Bold of you to check.",
+      "Legend says someone once refreshed this into working. They were wrong.",
+      "Patience isn't loading either.",
+      "This page and your expectations, both empty.",
+      "Refresh count rising. Content count: unchanged.",
+      "There's a word for this. It's 'stubborn'.",
+      "Somewhere, a developer felt a disturbance.",
+      "You're really committed to this bit.",
+      "No updates. No plans. No regrets.",
+      "This message updates more than the page does.",
+      "Fun fact: refreshing doesn't summon a website.",
+      "The suspense is doing more work than the site.",
+      "Still here. Still nothing. Still you.",
+      "At this point it's basically a hobby.",
+      "This is the most action this page has seen all year.",
+      "Someone should frame this level of dedication.",
+      "Okay, one more refresh. For science.",
+      "New phrase, same nothing.",
+      "You clearly have nothing better to do than refresh this page."
+    ];
+
+    var milestones = {
+      5: { title: "Persistent.", desc: "The page noticed. It still doesn't care." },
+      10: { title: "Very Persistent.", desc: "This is officially a pattern." },
+      15: { title: "Concerningly Persistent.", desc: "Bold strategy for zero payoff." },
+      20: { title: "Impressively Stubborn.", desc: "Nobody asked you to keep going. You did anyway." },
+      25: { title: "Certified Clicker.", desc: "There should be a support group for this." },
+      30: { title: "Chronic Refresher.", desc: "The content isn't coming. But hey, you are." },
+      35: { title: "Professional Waiter.", desc: "This isn't dedication, this is a lifestyle choice." },
+      40: { title: "Patience: Not Found.", desc: "Somewhere, your browser history is judging you." },
+      45: { title: "Serial Reloader.", desc: "You didn't build this page, but you own it now." },
+      50: { title: "F5 Enthusiast.", desc: "It's not a joke anymore. Maybe it never was." },
+      55: { title: "Nothing Hunter.", desc: "Time well wasted, technically." },
+      60: { title: "Void Watcher.", desc: "Perfect record: zero updates, infinite refreshes." },
+      65: { title: "Empty Page Fan Club.", desc: "Membership card is imaginary, like the content." },
+      70: { title: "Refresh Connoisseur.", desc: "You're not refreshing a page, you're refreshing a lifestyle." },
+      75: { title: "Dedicated to a Fault.", desc: "Nothing was here. Nothing will ever be. You stayed anyway." },
+      80: { title: "Loyal to Nothing.", desc: "This deserves a plaque. Or an intervention." },
+      85: { title: "Full-Time Refresher.", desc: "The page respects the hustle. Mildly concerned by it." },
+      90: { title: "This Is a Hobby Now.", desc: "At this point it's basically a subscription." },
+      95: { title: "Blank Page Believer.", desc: "You've officially outlasted the excitement." },
+      100: { title: "Committed. Too Committed.", desc: "This is peak commitment to absolutely nothing." },
+      110: { title: "Reload Royalty.", desc: "Somewhere a developer felt a disturbance." },
+      120: { title: "The Regular.", desc: "The page is empty. You are relentless." },
+      130: { title: "Still Checking.", desc: "This message updates more than the site does." },
+      140: { title: "Unbothered by Reality.", desc: "Refreshing won't summon content. It never has." },
+      150: { title: "Refresh Over Rest.", desc: "You blinked and it's still nothing." },
+      200: { title: "Ctrl+R Champion.", desc: "Achievement earned through sheer stubbornness." },
+      220: { title: "Nothing Enjoyer.", desc: "This is the definition of insanity, and yet." },
+      250: { title: "Devoted Beyond Reason.", desc: "You could've built the page yourself by now." },
+      300: { title: "The Page Remembers You.", desc: "The suspense is doing more work than the site." },
+      320: { title: "Frequent Flyer, Zero Destination.", desc: "Somehow this is still going. Impressive. Concerning." },
+      350: { title: "Habitual Offender.", desc: "The page ran out of things to say. You didn't." },
+      400: { title: "We Meet Again.", desc: "This click count deserves its own zip code." },
+      420: { title: "Deja Vu Specialist.", desc: "You've refreshed more than this site has ever updated." },
+      450: { title: "Same Page, New You.", desc: "There's a word for this. It's 'stubborn'." },
+      500: { title: "Getting Worrying.", desc: "The page respawns exactly the same, every single time." },
+      550: { title: "Getting Impressive.", desc: "F5 isn't a personality trait. Or is it now." },
+      600: { title: "Getting Both.", desc: "This is now measurable in geological time." },
+      620: { title: "Beyond Reasonable Doubt.", desc: "You've unlocked a tier that shouldn't exist." },
+      650: { title: "This Isn't Normal.", desc: "The nothing is stronger here. So is your resolve." },
+      700: { title: "This Might Be Fine.", desc: "This number shouldn't be possible. And yet." },
+      750: { title: "Definitely Not Fine.", desc: "The void refreshes back." },
+      800: { title: "Somehow Still Going.", desc: "This is less an achievement, more a diagnosis." },
+      850: { title: "Refresh Addict, Confirmed.", desc: "The page noticed. It still doesn't care." },
+      900: { title: "Living Here Now.", desc: "This is officially a pattern." },
+      950: { title: "Making This Weird.", desc: "Bold strategy for zero payoff." },
+      1000: { title: "Making This a Bit Much.", desc: "Nobody asked you to keep going. You did anyway." },
+      1500: { title: "Legendary Status.", desc: "There should be a support group for this." },
+      2000: { title: "Mythical Refresher.", desc: "The content isn't coming. But hey, you are." },
+      2500: { title: "Beyond the Veil of Content.", desc: "This isn't dedication, this is a lifestyle choice." },
+      3000: { title: "The Final Boss of Boredom.", desc: "Somewhere, your browser history is judging you." },
+      3500: { title: "Persistent.", desc: "You didn't build this page, but you own it now." },
+      4000: { title: "Very Persistent.", desc: "It's not a joke anymore. Maybe it never was." },
+      4500: { title: "Concerningly Persistent.", desc: "Time well wasted, technically." },
+      5000: { title: "Impressively Stubborn.", desc: "Perfect record: zero updates, infinite refreshes." },
+      5500: { title: "Certified Clicker.", desc: "Membership card is imaginary, like the content." },
+      6000: { title: "Chronic Refresher.", desc: "You're not refreshing a page, you're refreshing a lifestyle." },
+      6500: { title: "Professional Waiter.", desc: "Nothing was here. Nothing will ever be. You stayed anyway." },
+      7000: { title: "Patience: Not Found.", desc: "This deserves a plaque. Or an intervention." },
+      7500: { title: "Serial Reloader.", desc: "The page respects the hustle. Mildly concerned by it." },
+      8000: { title: "F5 Enthusiast.", desc: "At this point it's basically a subscription." },
+      8500: { title: "Nothing Hunter.", desc: "You've officially outlasted the excitement." },
+      9000: { title: "Void Watcher.", desc: "This is peak commitment to absolutely nothing." },
+      9500: { title: "Empty Page Fan Club.", desc: "Somewhere a developer felt a disturbance." },
+      10000: { title: "Refresh Connoisseur.", desc: "The page is empty. You are relentless." },
+      15000: { title: "Dedicated to a Fault.", desc: "This message updates more than the site does." },
+      20000: { title: "Loyal to Nothing.", desc: "Refreshing won't summon content. It never has." },
+      25000: { title: "Full-Time Refresher.", desc: "You blinked and it's still nothing." },
+      30000: { title: "This Is a Hobby Now.", desc: "Achievement earned through sheer stubbornness." },
+      35000: { title: "Blank Page Believer.", desc: "This is the definition of insanity, and yet." },
+      40000: { title: "Committed. Too Committed.", desc: "You could've built the page yourself by now." },
+      45000: { title: "Reload Royalty.", desc: "The suspense is doing more work than the site." },
+      50000: { title: "The Regular.", desc: "Somehow this is still going. Impressive. Concerning." },
+      55000: { title: "Still Checking.", desc: "The page ran out of things to say. You didn't." },
+      60000: { title: "Unbothered by Reality.", desc: "This click count deserves its own zip code." },
+      65000: { title: "Refresh Over Rest.", desc: "You've refreshed more than this site has ever updated." },
+      70000: { title: "Ctrl+R Champion.", desc: "There's a word for this. It's 'stubborn'." },
+      75000: { title: "Nothing Enjoyer.", desc: "The page respawns exactly the same, every single time." },
+      80000: { title: "Devoted Beyond Reason.", desc: "F5 isn't a personality trait. Or is it now." },
+      85000: { title: "The Page Remembers You.", desc: "This is now measurable in geological time." },
+      90000: { title: "Frequent Flyer, Zero Destination.", desc: "You've unlocked a tier that shouldn't exist." },
+      95000: { title: "Habitual Offender.", desc: "The nothing is stronger here. So is your resolve." },
+      100000: { title: "We Meet Again.", desc: "This number shouldn't be possible. And yet." },
+      150000: { title: "Deja Vu Specialist.", desc: "The void refreshes back." },
+      200000: { title: "Same Page, New You.", desc: "This is less an achievement, more a diagnosis." },
+      250000: { title: "Getting Worrying.", desc: "The page noticed. It still doesn't care." },
+      300000: { title: "Getting Impressive.", desc: "This is officially a pattern." },
+      350000: { title: "Getting Both.", desc: "Bold strategy for zero payoff." },
+      400000: { title: "Beyond Reasonable Doubt.", desc: "Nobody asked you to keep going. You did anyway." },
+      450000: { title: "This Isn't Normal.", desc: "There should be a support group for this." },
+      500000: { title: "This Might Be Fine.", desc: "The content isn't coming. But hey, you are." },
+      550000: { title: "Definitely Not Fine.", desc: "This isn't dedication, this is a lifestyle choice." },
+      600000: { title: "Somehow Still Going.", desc: "Somewhere, your browser history is judging you." },
+      650000: { title: "Refresh Addict, Confirmed.", desc: "You didn't build this page, but you own it now." },
+      700000: { title: "Living Here Now.", desc: "It's not a joke anymore. Maybe it never was." },
+      750000: { title: "Making This Weird.", desc: "Time well wasted, technically." },
+      800000: { title: "Making This a Bit Much.", desc: "Perfect record: zero updates, infinite refreshes." },
+      850000: { title: "Legendary Status.", desc: "Membership card is imaginary, like the content." },
+      900000: { title: "Mythical Refresher.", desc: "You're not refreshing a page, you're refreshing a lifestyle." },
+      950000: { title: "Beyond the Veil of Content.", desc: "Nothing was here. Nothing will ever be. You stayed anyway." },
+      1000000: { title: "The Final Boss of Boredom.", desc: "This deserves a plaque. Or an intervention." }
+    };
+    var milestoneKeys = Object.keys(milestones).map(Number).sort(function(a, b) { return a - b; });
+
+    var count = Number(localStorage.getItem('refreshCount') || 0) + 1;
+    localStorage.setItem('refreshCount', count);
+
+    if (count > 1) {
+      var snarkEl = document.getElementById('snark');
+      if (milestones[count]) {
+        if (count === milestoneKeys[milestoneKeys.length - 1]) {
+          snarkEl.textContent = "So... why did you even need this? You just spent all that time on something completely pointless. In the same time, you could've used AI to build a genuinely good website.";
+        } else {
+          snarkEl.textContent = 'Achievement unlocked: ' + milestones[count].title;
+        }
+        snarkEl.classList.add('milestone');
+        snarkEl.style.opacity = 1;
+      } else {
+        snarkEl.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+        snarkEl.style.opacity = 1;
+      }
+
+      document.getElementById('counter').textContent = 'reload no. ' + count;
+
+      var unlocked = milestoneKeys.filter(function(m) { return m <= count; });
+      var toggle = document.getElementById('achvToggle');
+      var list = document.getElementById('achvList');
+
+      toggle.textContent = '\uD83C\uDFC6 ' + unlocked.length + '/' + milestoneKeys.length + ' achievements collected';
+      toggle.style.display = 'inline-block';
+
+      list.innerHTML = unlocked.length
+        ? unlocked.slice().reverse().map(function(m) {
+            return '<div class="achv-item"><div class="achv-title"><span>' + m.toLocaleString() + '</span>' + milestones[m].title + '</div><div class="achv-desc">' + milestones[m].desc + '</div></div>';
+          }).join('')
+        : '<div class="achv-item">Nothing collected yet. Keep refreshing.</div>';
+
+      toggle.addEventListener('click', function() {
+        var isHidden = list.hasAttribute('hidden');
+        if (isHidden) { list.removeAttribute('hidden'); } else { list.setAttribute('hidden', ''); }
+      });
+    }
+  </script>
+
+</body>
+</html>
